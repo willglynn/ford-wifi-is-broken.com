@@ -20,7 +20,7 @@ Technical description
 
 SYNC 3 constructs and transmits an Association Request frame with two contradictory pieces of information in this scenario.
 
-First is the Mobility Domain element (MDE). This element indicates that SYNC 3 is a) aware of 802.11r and b) wishes to connect to that specific 802.11r mobility domain. The inclusion of an MDE makes SYNC 3's association request an FT initial mobility domain association in an RSN per IEEE Std 802.11-2012 § 12.4.2:
+First is the Mobility Domain element (MDE). This element indicates that SYNC 3 is a) aware of 802.11r and b) wishes to connect to a specific 802.11r mobility domain. The inclusion of an MDE makes SYNC 3's association request an FT initial mobility domain association in an RSN per IEEE Std 802.11-2012 § 12.4.2:
 
 > A STA indicates its support for the FT procedures by including the MDE in the (Re)Association Request frame and indicates its support of security by including the RSNE.
 
