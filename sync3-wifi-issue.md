@@ -39,6 +39,6 @@ Solutions
 
 SYNC 3 must either:
 
-1. Stop attempting 802.11r FT associations, or
-2. Begin attempting 802.11r FT associations using 802.11r FT authentication.
+1. Stop attempting 802.11r FT associations (i.e. remove the MDE from its association request), or
+2. Begin attempting 802.11r FT associations using 802.11r FT authentication (i.e. update the WPA supplicant to support 802.11r AKM suites).
 
