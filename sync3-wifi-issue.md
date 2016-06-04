@@ -42,3 +42,7 @@ SYNC 3 must either:
 1. Stop attempting 802.11r FT associations (i.e. remove the MDE from its association request), or
 2. Begin attempting 802.11r FT associations using 802.11r FT authentication (i.e. update the WPA supplicant to support 802.11r AKM suites).
 
+Progress
+--
+
+Ford is tracking this issue as `CAS-9606059`, a research case opened 2016-05-31. I also reported this issue using several other channels earlier in the month of May, but none of those Ford representatives were able to give me any identifier.
