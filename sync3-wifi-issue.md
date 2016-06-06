@@ -46,3 +46,5 @@ Progress
 --
 
 Ford is tracking this issue as `CAS-9606059`, a research case opened 2016-05-31. I also reported this issue using several other channels earlier in the month of May, but none of those Ford representatives were able to give me any identifier.
+
+On June 6, Senior Business Analyst at Ford contacted me asking me to try disabling authentication or to use a different password. I informed her that I had already performed much experimentation, and that I could send two packet captures – one showing SYNC 3 connecting to an access point successfully, and another showing SYNC 3 failing to connect to that same access point once 802.11r is enabled. She allowed me to forward these packet captures by email. I also included a [dissection of one problematic association request](http://i.imgur.com/Kap11SZ.png), showing that SYNC 3 selected a non-FT AKM and included a mobility domain element in violation of the 802.11 standard.
