@@ -1,7 +1,7 @@
 Ford SYNC 3 is unable to connect to secured 802.11r wireless networks
 ===
 
-Ford SYNC 3 includes an 802.11b/g/n wifi client, but it is unable to connecting to wireless networks that are a) secured using WPA2 and b) support 802.11r Fast Transitions. This is an implementation defect and a clear violation of the 802.11 standard.
+Ford SYNC 3 includes an 802.11b/g/n wifi client, but it is unable to connecting to wireless networks that a) are secured using WPA2 and b) support 802.11r Fast Transitions. This is an implementation defect and a clear violation of the 802.11 standard.
 
 Background
 ---
