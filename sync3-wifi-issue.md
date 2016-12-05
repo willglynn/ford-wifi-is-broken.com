@@ -64,3 +64,15 @@ Over the next several days, I had a back-and-forth with the Ford Regional Custom
 Ultimately, all I need to demonstrate the issue is an 802.11r-capable access point, so I ordered up a [$30 router](https://www.amazon.com/gp/product/B01DBS5Z0W). It arrived on November 25. I then [flashed it with a stock OpenWRT image](https://wiki.openwrt.org/toh/gl-inet/gl-mt300a#oem_easy_installation), [configured it for 802.11r](https://www.reddit.com/r/openwrt/comments/515oea/finally_got_80211r_roaming_working/), and went out to my car with the box and `iwcap`… only to find that `hostapd` doesn't actually validate the AKM suite as required by the 802.11 standard. So, I fixed `hostapd`, built and installed a [replacement `wpad` package](https://s3.amazonaws.com/willglynn/hostapd/wpad_2016-01-15-2_ramips.ipk), verified that it now corrrectly refuses the broken association request, and [submitted my patch](http://lists.infradead.org/pipermail/hostap/2016-November/036706.html) (which was [subsequently merged 🎉](http://w1.fi/cgit/hostap/commit/?id=209dad066e5275ac13f52623cc9eaf9b70910123)). I then told my contact at Ford that I have a [portable 802.11r lab](http://i.imgur.com/OD9RYhj.jpg) that I can bring to the dealership of her choosing.
 
 On November 28, I learned that the Regional Customer Service Manager that took this case on November 17 was changing positions and that my case would be handled by yet another representative, now my fourth contact at Ford corporate. (What kind of turnover do they have? Is this normal?)
+
+On November 30, I brought my vehicle to a dealership per Ford's request. The dealership was not interested in my portable 802.11r lab, but I'm told there were able to reproduce the issue using their internal wireless network, which apparently is also 802.11r-capable. They escalated the case back to Ford engineering.
+
+On December 5, I received an email from the second Regional Customer Service Manager starting with:
+
+> At this time it has been determined that the cause of the concern is the customer’s connection point and not a vehicle failure. There has been no diagnosis and therefore no repair remedy to apply in this case. As I am not a technical resource, I am unable to make any recommendations, but I must inform you that I have exhausted my technical resources and have no other recourse to follow.
+
+I replied:
+
+> This is not satisfactory.
+> 
+> I understand that it's convenient to blame the customer's equipment, but I have two different access points from two different vendors both showing that this vehicle is in violation of the IEEE 802.11 standard. Both access points can document their communications with my vehicle, and both show the vehicle sending an association request frame which the 802.11 standard says **the access point must reject**. Please explain how you conclude that this is a problem with my equipment and not a problem with the vehicle.
