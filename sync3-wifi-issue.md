@@ -20,7 +20,7 @@ Technical description
 
 SYNC 3 constructs and transmits an Association Request frame with two contradictory pieces of information in this scenario.
 
-First is the Mobility Domain element (MDE). This element indicates that SYNC 3 is a) aware of 802.11r and b) wishes to connect to a specific 802.11r mobility domain. The inclusion of an MDE makes SYNC 3's association request an FT initial mobility domain association in an RSN per IEEE Std 802.11-2012 § 12.4.2:
+First is the Mobility Domain element (MDE). This element indicates that SYNC 3 a) is aware of 802.11r and b) wishes to connect to a specific 802.11r mobility domain. The inclusion of an MDE makes SYNC 3's association request an "FT initial mobility domain association in an RSN" per IEEE Std 802.11-2012 § 12.4.2:
 
 > A STA indicates its support for the FT procedures by including the MDE in the (Re)Association Request frame and indicates its support of security by including the RSNE.
 
@@ -65,7 +65,7 @@ Ultimately, all I need to demonstrate the issue is an 802.11r-capable access poi
 
 On November 28, I learned that the Regional Customer Service Manager that took this case on November 17 was changing positions and that my case would be handled by yet another representative, now my fourth contact at Ford corporate. (What kind of turnover do they have? Is this normal?)
 
-On November 30, I brought my vehicle to a dealership per Ford's request, where they identify this as repair order number `6220998`. The dealership was not interested in my portable 802.11r lab, but I'm told there were able to reproduce the issue using their internal wireless network, which apparently is also 802.11r-capable. They escalated the case back to Ford engineering.
+On November 30, I brought my vehicle to a dealership per Ford's request, where they identify this as repair order number `6220998`. The dealership was not interested in my portable 802.11r lab, but the technician at the dealership's service center was able to confirm the issue using their internal wireless network, which apparently is also 802.11r-capable. They referred the case to some internal Ford hotline.
 
 On December 5, I received an email from the second Regional Customer Service Manager starting with:
 
