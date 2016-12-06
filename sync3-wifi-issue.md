@@ -53,7 +53,7 @@ On July 14, a different analyst contacted me to say that the issue was still ope
 
 Over the next several months, I received periodic phone calls from Michigan telling me that the case is still open and that there's no ETA.
 
-On November 15, I emailed the second analyst again asking for a status update. A brief discussion ensued, and I pointed out that I had completed research into this bug and provided my technical findings to my dealership within 72 hours of taking delivery of my vehicle, and that Ford appears to have sat on it for six months and made no progress. On November 16, I was told that the issue had been sent to CCT Escalation and that Engineering remained in the loop.
+On November 15, I emailed the second analyst again asking for a status update. A brief discussion ensued, and I pointed out that I had completed research into this bug and provided my technical findings to my dealership within 72 hours of taking delivery of my vehicle, and that Ford appears to have sat on it for six months and made no progress. On November 16, I was told that the issue had been sent to CCT Escalation and that Engineering remained in the loop. This escalation is identified as `CAS-9606059-T9J7D6 CRM:00013000000371`.
 
 On November 17, I was contacted by a Ford Regional Customer Service Manager who informed me that she would be happy to assit with her technical resources… once I dropped off the vehicle at a Ford dealership. I replied that I understood she had a protocol to follow, but that it makes little sense for me to drop off my vehicle given the nature of the problem -- that instead, someone at Ford could read my report, look at their software, find and fix the problem without requiring my car. I also added that I would be willing to drop off my car anyway at any of the six closest dealerships anyway, so long as a comparable loaner was available.
 
@@ -65,7 +65,7 @@ Ultimately, all I need to demonstrate the issue is an 802.11r-capable access poi
 
 On November 28, I learned that the Regional Customer Service Manager that took this case on November 17 was changing positions and that my case would be handled by yet another representative, now my fourth contact at Ford corporate. (What kind of turnover do they have? Is this normal?)
 
-On November 30, I brought my vehicle to a dealership per Ford's request. The dealership was not interested in my portable 802.11r lab, but I'm told there were able to reproduce the issue using their internal wireless network, which apparently is also 802.11r-capable. They escalated the case back to Ford engineering.
+On November 30, I brought my vehicle to a dealership per Ford's request, where they identify this as repair order number `6220998`. The dealership was not interested in my portable 802.11r lab, but I'm told there were able to reproduce the issue using their internal wireless network, which apparently is also 802.11r-capable. They escalated the case back to Ford engineering.
 
 On December 5, I received an email from the second Regional Customer Service Manager starting with:
 
@@ -76,3 +76,7 @@ I replied:
 > This is not satisfactory.
 > 
 > I understand that it's convenient to blame the customer's equipment, but I have two different access points from two different vendors both showing that this vehicle is in violation of the IEEE 802.11 standard. Both access points can document their communications with my vehicle, and both show the vehicle sending an association request frame which the 802.11 standard says **the access point must reject**. Please explain how you conclude that this is a problem with my equipment and not a problem with the vehicle.
+
+Another back and forth ensued, and the Regional Customer Service Manager informed me that the dealership had not requested that this case be reviewed by a Field Service Engineer, and that she could work with them to make that happen. I insisted that the engineer be presented with the information contained in this document, saying in part:
+
+> I want to know that some technical resource at Ford has actually **looked** at this information. If they did, I guarantee they would have more to say than "the cause of the concern is the customer’s connection point".
