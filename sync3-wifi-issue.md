@@ -80,3 +80,51 @@ I replied:
 Another back and forth ensued, and the Regional Customer Service Manager informed me that the dealership had not requested that this case be reviewed by a Field Service Engineer, and that she could work with them to make that happen. I insisted that the engineer be presented with the information contained in this document, saying in part:
 
 > I want to know that some technical resource at Ford has actually **looked** at this information. If they did, I guarantee they would have more to say than "the cause of the concern is the customer’s connection point".
+
+On December 20, I wrote again:
+
+> It's been over two weeks since our last contact. On my end, I've made my writeup accessible via a shorter link: http://ford-wifi-is-broken.com/
+> 
+> What's currently in progress at Ford? Has a Field Service Engineer been engaged on this case? When should I expect further updates?
+
+I got an auto-response, which is what I expected given it's ~Christmas. I got a reply on December 27:
+
+> Details of your vehicle concerns were submitted by the dealership to Ford’s corporate technical resource for review. It has been determined that there is no vehicle failure, rather a concern with the connection point. Per technical assistance team, at this time we would have you reference the information on pages 105 and 106 of the second printing of the Sync 3 supplement. You may also wish to contact the Sync In-Vehicle Team for assistance on connecting to the Wi-Fi source at 800-392-3763, Option 3 when prompted.
+> 
+> Your case with us will be closed at this point as there has been no damage or defect found and our solution for you is to contact the Sync In-Vehicle Team.
+
+…to which I replied:
+
+> > Details of your vehicle concerns were submitted by the dealership to Ford’s corporate technical resource for review. It has been determined that there is no vehicle failure, rather a concern with the connection point.
+> 
+> This conclusion does not agree with the facts.
+> 
+> I've told everyone who will listen: this vehicle sends malformed association request frames when connecting to 802.11r-capable access points. I've sent diagrams showing these frames, along with the standards documents which explicitly say that those frames make no sense. I don't see any way to present this except that SYNC 3 has a bug, but don't take my word for it: the dealership service personnel told me they were able to reproduce this issue with the dealership's 802.11r-capable network too.
+> 
+> It's broken for me, and I've offered specifics as to precisely what is going wrong. I brought my vehicle to [dealership] as you requested, and they say it's broken for them too. After all this, it's insufficient for Ford corporate to close the case saying only it's "a concern with the connection point". Seriously – "connection point" isn't even a term used in the 802.11 standard, nor is that phrase used by anyone who's done any wireless troubleshooting.
+>
+I believe someone looked at this case, saw "can't connect to wifi", and closed it saying "must be the customer's problem". I wrote to [previous rep] about this possibility on November 17:
+>
+> > So, yes, the basic problem is that my vehicle can't connect to my wifi network. It's tempting to think that wifi problems can be dismissed as an incompatibility that's both or neither party's fault, but in this case that's simply not true. My vehicle can't connect to my wifi because it's trying to authenticate in a way that violates the 802.11 standard. Specifically, my vehicle can't connect because it's transmitting an authentication frame that is expressly prohibited by IEEE Std 802.11-2012 § 12.4.2:
+> > 
+> > …
+> > 
+> > Here's a picture of my vehicle sending an Association Request frame with an MDE and an RSN indicating AKM suite 00-0f-ac:2, which is exactly what that sentence says not to do:
+> > 
+> > …
+> > 
+> > **That** is the problem. Someone at Ford engineering should dig into the wifi section of the SYNC 3 software, where they'll find that the WPA supplicant does not support 802.11r, and that the component sending association requests is configured to request 802.11r anyway. **That** is why SYNC 3 would send this kind of invalid frame. They can either a) tell the component sending association requests not to request 802.11r, or b) keep requesting 802.11r and teach the WPA supplicant how to handle 802.11r. **That** is this fix.
+> 
+> Closing this case with that explanation is not satisfactory, and repeating that explanation without elaboration does nothing to challenge this interpretation of events.
+>
+> > You may also wish to contact the Sync In-Vehicle Team for assistance on connecting to the Wi-Fi source at 800-392-3763, Option 3 when prompted.
+>
+> I would love to contact the Sync In-Vehicle Team, but this phone number leads to a recording which says "Hello, thank you for calling It Cosmetics. If you are a new customer and would like to place your first order, please press 1." I pressed 3 and a woman answered who assured me that they only sell makeup. What is the correct number?
+>
+> > Your case with us will be closed at this point as there has been no damage or defect found and our solution for you is to contact the Sync In-Vehicle Team.
+>
+> You told me this on December 5. You also said that the dealership could refer this to a Field Service Engineer, and that you would recommend that the dealership do this. That's what I was following up about. Has that happened?
+
+Google led me to 800-392-3673 (800-392-FORD), where I reached a representative who found this case and referred it to Tier 2 within the In-Vehicle Technology group. I hope that's a step in the right direction, though if is, I'll draw unpleasant conclusions about the Customer Care Team which has a) had this information for months and b) somehow never contacted the IVT group on my behalf.
+
+I also got a call from the service desk at the dealership, a member of which was CC:ed on my reply, who informed me that the dealership is still trying to get the Field Service Engineer out to the dealership to address this issue. He's hopeful that the engineer will be more available now that the holiday season is winding down.
