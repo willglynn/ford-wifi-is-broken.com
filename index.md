@@ -1,12 +1,15 @@
-Ford SYNC 3 is unable to connect to secured 802.11r wireless networks
-===
+<div class="intro" markdown="1">
 
-Ford SYNC 3 includes an 802.11b/g/n wifi client, but it is unable to connecting to wireless networks that a) are secured using WPA2 and b) support 802.11r Fast Transitions. This is an implementation defect and a clear violation of the 802.11 standard.
+Ford SYNC 3 includes an 802.11b/g/n wifi client, but it is unable to connect to wireless networks that support 802.11r Fast Transitions.
+
+When SYNC 3 tries to connect to a network that supports 802.11r, it says "I want to use 802.11r" and "I want to use **non-802.11r** security". That's not allowed, so it can't connect.
+
+That's it.
+
+</div>
 
 Background
 ---
-
-WPA2 is the standard mechanism for securing 802.11 wireless networks.
 
 802.11r Fast Transitions are a feature intended to support wireless clients that require mobility and, well, fast transitions between access points. Devices such as VoIP phones benefit from the ability to transition from one access point to another with minimal disruption to traffic flow. 802.11r FT is an optional feature incorporated into 802.11n and into the mainline standard as of IEEE Std 802.11-2012.
 
@@ -42,12 +45,28 @@ SYNC 3 must either:
 1. Stop attempting 802.11r FT associations (i.e. remove the MDE from its association request), or
 2. Begin attempting 802.11r FT associations using 802.11r FT authentication (i.e. update the WPA supplicant to support 802.11r AKM suites).
 
+Resources
+--
+
+I was troubleshooting this on May 4, during which I took two packet captures:
+
+* [one with 802.11r enabled](/assets/resources/may_4_80211r_enabled.pcap.gz), where SYNC 3 can't connect, and
+* [another with 802.11r disabled](/assets/resources/may_4_80211r_disabled.pcap.gz), where SYNC 3 can connect.
+
+These were recorded minutes apart using the same Ford vehicle and the same Ruckus access point. The only change was whether the access point advertised its 802.11r capabilities.
+
+Inspecting the 802.11r-enabled capture shows [this association request](/assets/images/association-request-frame.png):
+
+<a href="/assets/images/association-request-frame.png"><img src="/assets/images/association-request-frame.png"></a>
+
+Such an association frame must be rejected by the access point; see [IEEE Std 802.11r-2008 page 54](/assets/resources/80211r-2008_page_54.pdf) or [IEEE Std 802.11-2012 page 1312](/assets/resources/80211-2012_page_1312.pdf).
+
 Progress
 --
 
 Ford is tracking this issue as `CAS-9606059`, a research case opened 2016-05-31. I also reported this issue using several other channels earlier in the month of May, but none of those Ford representatives were able to give me any identifier.
 
-On June 6, a Senior Business Analyst at Ford contacted me asking me to try disabling authentication or to use a different password. I informed her that I had already performed much experimentation, and that I could send two packet captures – one showing SYNC 3 connecting to an access point successfully, and another showing SYNC 3 failing to connect to that same access point once 802.11r is enabled. She allowed me to forward these packet captures by email. I also included a [dissection of one problematic association request](http://i.imgur.com/Kap11SZ.png), showing that SYNC 3 selected a non-FT AKM and included a mobility domain element in violation of the 802.11 standard.
+On June 6, a Senior Business Analyst at Ford contacted me asking me to try disabling authentication or to use a different password. I informed her that I had already performed much experimentation, and that I could send two packet captures – one showing SYNC 3 connecting to an access point successfully, and another showing SYNC 3 failing to connect to that same access point once 802.11r is enabled. She allowed me to forward these packet captures by email. I also included a [dissection of one problematic association request](/assets/images/june-6-dissection.png), showing that SYNC 3 selected a non-FT AKM and included a mobility domain element in violation of the 802.11 standard.
 
 On July 14, a different analyst contacted me to say that the issue was still open, and to ask if I could send over those packet captures. I forwarded the email from June, which she acknowledged but which her reply only partially quoted. I replied again attaching a PDF of my June email, which she acknowledged again.
 
@@ -57,11 +76,17 @@ On November 15, I emailed the second analyst again asking for a status update. A
 
 On November 17, I was contacted by a Ford Regional Customer Service Manager who informed me that she would be happy to assit with her technical resources… once I dropped off the vehicle at a Ford dealership. I replied that I understood she had a protocol to follow, but that it makes little sense for me to drop off my vehicle given the nature of the problem -- that instead, someone at Ford could read my report, look at their software, find and fix the problem without requiring my car. I also added that I would be willing to drop off my car anyway at any of the six closest dealerships anyway, so long as a comparable loaner was available.
 
-Also on November 17, it occurred to me that Wireshark (the protocol analyzer of record) can and should identify this issue automatically. I [opened a bug](https://bugs.wireshark.org/bugzilla/show_bug.cgi?id=13149) describing the feature I think it should have, [submitted a patch](https://code.wireshark.org/review/#/c/18862/), and [got it merged 🎉](https://github.com/wireshark/wireshark/commit/50515b9ebf8db7e97369e0cdbc748db9d0fd818b). The association request frames [now look like this](http://i.imgur.com/ZA2i5Uh.png), making this issue obvious without needing to squint at IEEE standards.
+<aside><p markdown="1">
+  Also on November 17, it occurred to me that Wireshark (the protocol analyzer of record) can and should identify this issue automatically. I [opened a bug](https://bugs.wireshark.org/bugzilla/show_bug.cgi?id=13149) describing the feature I think it should have, [submitted a patch](https://code.wireshark.org/review/#/c/18862/), and [got it merged 🎉](https://github.com/wireshark/wireshark/commit/50515b9ebf8db7e97369e0cdbc748db9d0fd818b). The association request frames [now look like this](http://i.imgur.com/ZA2i5Uh.png), making this issue obvious without needing to squint at IEEE standards.
+</p></aside>
 
 Over the next several days, I had a back-and-forth with the Ford Regional Customer Service Manager about how to proceed with this case. She needs me to go to a dealership and do _something_ to demonstrate the issue. I explained that bringing my network with me would be an ordeal, and asked if I could bring electronic evidence instead -- say, a video of me using my car trying to connect to my network along with packet captures of the exchange. She seemed to think that would work, but I went a step further.
 
-Ultimately, all I need to demonstrate the issue is an 802.11r-capable access point, so I ordered up a [$30 router](https://www.amazon.com/gp/product/B01DBS5Z0W). It arrived on November 25. I then [flashed it with a stock OpenWRT image](https://wiki.openwrt.org/toh/gl-inet/gl-mt300a#oem_easy_installation), [configured it for 802.11r](https://www.reddit.com/r/openwrt/comments/515oea/finally_got_80211r_roaming_working/), and went out to my car with the box and `iwcap`… only to find that `hostapd` doesn't actually validate the AKM suite as required by the 802.11 standard. So, I fixed `hostapd`, built and installed a [replacement `wpad` package](https://s3.amazonaws.com/willglynn/hostapd/wpad_2016-01-15-2_ramips.ipk), verified that it now corrrectly refuses the broken association request, and [submitted my patch](http://lists.infradead.org/pipermail/hostap/2016-November/036706.html) (which was [subsequently merged 🎉](http://w1.fi/cgit/hostap/commit/?id=209dad066e5275ac13f52623cc9eaf9b70910123)). I then told my contact at Ford that I have a [portable 802.11r lab](http://i.imgur.com/OD9RYhj.jpg) that I can bring to the dealership of her choosing.
+<aside><p markdown="1">
+Ultimately, all I need to demonstrate the issue is an 802.11r-capable access point, so I ordered up a [$30 router](https://www.amazon.com/gp/product/B01DBS5Z0W). It arrived on November 25. I then [flashed it with a stock OpenWRT image](https://wiki.openwrt.org/toh/gl-inet/gl-mt300a#oem_easy_installation), [configured it for 802.11r](https://www.reddit.com/r/openwrt/comments/515oea/finally_got_80211r_roaming_working/), and went out to my car with the box and `iwcap`… only to find that `hostapd` doesn't actually validate the AKM suite as required by the 802.11 standard. So, I fixed `hostapd`, built and installed a [replacement `wpad` package](/assets/resources/wpad_2016-01-15-2_ramips.ipk), verified that it now corrrectly refuses the broken association request, and [submitted my patch](http://lists.infradead.org/pipermail/hostap/2016-November/036706.html) (which was [subsequently merged 🎉](http://w1.fi/cgit/hostap/commit/?id=209dad066e5275ac13f52623cc9eaf9b70910123)).
+</p></aside>
+
+On November 25, I told my contact at Ford that I have a [portable 802.11r lab](/assets/images/portable-80211r-lab.jpg) that I can bring to the dealership of her choosing.
 
 On November 28, I learned that the Regional Customer Service Manager that took this case on November 17 was changing positions and that my case would be handled by yet another representative, now my fourth contact at Ford corporate. (What kind of turnover do they have? Is this normal?)
 
@@ -83,7 +108,7 @@ Another back and forth ensued, and the Regional Customer Service Manager informe
 
 On December 20, I wrote again:
 
-> It's been over two weeks since our last contact. On my end, I've made my writeup accessible via a shorter link: http://ford-wifi-is-broken.com/
+> It's been over two weeks since our last contact. On my end, I've made my writeup accessible via a shorter link: [http://ford-wifi-is-broken.com/](http://ford-wifi-is-broken.com/)
 > 
 > What's currently in progress at Ford? Has a Field Service Engineer been engaged on this case? When should I expect further updates?
 

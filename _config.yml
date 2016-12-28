@@ -1,2 +1,4 @@
-theme: jekyll-theme-slate
-markdown: redcarpet
+---
+title: "Ford Wifi Is Broken"
+description: "SYNC 3 can't connect to 802.11r wireless networks"
+repository: willglynn/ford-wifi-is-broken.com
