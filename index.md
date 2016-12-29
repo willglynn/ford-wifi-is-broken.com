@@ -182,4 +182,4 @@ Google led me to 800-392-3673 (800-392-FORD), where I reached a representative w
 
 I also got a call from the service desk at the dealership, a member of which was CC:ed on my reply, who informed me that the dealership is still trying to get the Field Service Engineer out to the dealership to address this issue. He's hopeful that the engineer will be more available now that the holiday season is winding down.
 
-On December 29, I [dug into the SYNC 3 software](#software-analysis) and found additional information relevant to this issue. SYNC 3 v2.2's `wpa_supplicant` is never configured to attempt 802.11r authenticaiton, despite the vehicle attempting to associate to a 802.11r mobility domain. I emailed again [insisting that the case be re-opened](/2016/12/29/email-1483030261.html).
+On December 29, I [dug into the SYNC 3 software](#software-analysis) and found additional information relevant to this issue. SYNC 3 v2.2's `wpa_supplicant` is never configured to attempt 802.11r authentication, despite the vehicle attempting to associate to a 802.11r mobility domain. I emailed again [insisting that the case be re-opened](/2016/12/29/email-1483030261.html).
