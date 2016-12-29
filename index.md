@@ -68,6 +68,8 @@ Someone [posted SYNC 3's 2.2 update](http://www.2gfusions.net/showthread.php?tid
 
 This software image offers confirmation of this theory. SYNC 3 uses a QNX build of [the usual `wpa_supplicant`](https://w1.fi/wpa_supplicant/) for its 802.11 authentication exchanges. `wpa_supplicant` can support 802.11r, but it must be compiled with `CONFIG_IEEE80211R` and it must be configured as `key_mgmt=PSK FT-PSK`. The default is `key_mgmt=PSK`.
 
+`/usr/sbin/wpa_supplicant_ti18xx` can be found inside `/ifs/second-ifs`, and it looks like it *was* compiled with 802.11r support. The [key management configuration parser](https://w1.fi/cgit/hostap/tree/wpa_supplicant/config.c?h=hostap_2_4#n635) checks for `FT-PSK` and `FT-EAP` only if it actually supports 802.11r, and that's [what's in this build](/assets/images/wpa_supplicant_strings.png). So: if the WPA supplicant supports 802.11r, why doesn't it work?
+
 `/apps/NET_WifiConnectionMgr` is a Ford tool which, among other things, creates the configuration file for `wpa_supplicant`. It writes a `network={` block, and it can specify values for:
 
 * `ssid`,
@@ -81,7 +83,9 @@ However, besides the default of `key_mgmt=PSK`, the only possible key management
 
 The generated configuration files **never** contain `key_mgmt=FT-PSK`, meaning that `wpa_supplicant` can **never** attempt FT authentication. This is why the AKM suites in the association request contain only `00-0F-AC:2` (which is `key_mgmt=PSK`) and not `00-0F-AC:4` (which is `key_mgmt=FT-PSK`).
 
-Solution 2 could be accomplished by a) verifying that the WPA supplicant was compiled with 802.11r support and b) making `NET_WifiConnectionMgr` configure `key_mgmt=PSK FT-PSK` whenever it would instead rely on defaults.
+**This is the bug.**
+
+Solution 2 could be accomplished by making `NET_WifiConnectionMgr` configure `key_mgmt=PSK FT-PSK` whenever it would instead rely on defaults. Two lines of code in that specific program would fix this issue.
 
 Progress
 ===
