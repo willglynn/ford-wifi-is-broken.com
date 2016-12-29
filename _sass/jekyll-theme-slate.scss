@@ -304,6 +304,10 @@ Full-Width Styles
   background: linear-gradient(top, #373737, #212121);
 }
 
+#header_wrap a:link, #header_wrap a:visited {
+	color: inherit;
+}
+
 #header_wrap .inner {
   padding: 20px 10px 10px 10px;
 }
