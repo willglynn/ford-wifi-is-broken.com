@@ -140,6 +140,8 @@ After [doubling down](/2016/12/05/email-1480969778.html), the Regional Customer 
 
 > I want to know that some technical resource at Ford has actually **looked** at this information. If they did, I guarantee they would have more to say than "the cause of the concern is the customer’s connection point".
 
+I registered `ford-wifi-is-broken.com` on December 6 and redirected it to [the GitHub gist](https://gist.github.com/willglynn/75d1c722f21366f98841411a3c93fe74) that had been tracking this information. I wanted it to be easy for anyone at Ford to find my description of the problem.
+
 On December 20, [I wrote again](/2016/12/20/email-1482274095.html):
 
 > It's been over two weeks since our last contact. On my end, I've made my writeup accessible via a shorter link: [http://ford-wifi-is-broken.com/](http://ford-wifi-is-broken.com/)
