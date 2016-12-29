@@ -59,8 +59,30 @@ Inspecting the 802.11r-enabled capture shows [this association request](/assets/
 
 Such an association frame must be rejected by the access point; see [IEEE Std 802.11r-2008 page 54](/assets/resources/80211r-2008_page_54.pdf) or [IEEE Std 802.11-2012 page 1312](/assets/resources/80211-2012_page_1312.pdf).
 
-Progress
+Software Analysis
 --
+
+The theory [which I've long advanced](/2016/11/17/email-1479396709.html) is that there's two components inside SYNC 3, one of which is attempting 802.11r when it sends the association request frame, and another of which is not attempting 802.11r when it handles authentication.
+
+Someone [posted SYNC 3's 2.2 update](http://www.2gfusions.net/showthread.php?tid=3881&pid=100870) which gave me a chance to find out. That archive contains `HN1T-14G381-LG.tar.gz`, which contains `apps.tar.gz`, which contains a QNX6 filesystem holding some software.
+
+This software image confirms at least half my theory. SYNC 3 uses a QNX build of [the usual `wpa_supplicant`](https://w1.fi/wpa_supplicant/) for its 802.11 authentication exchanges. `wpa_supplicant` can support 802.11r, but it must be compiled with `CONFIG_IEEE80211R` and it must be configured as `key_mgmt=PSK FT-PSK`. The default is `key_mgmt=PSK`.
+
+`/apps/NET_WifiConnectionMgr` is a Ford tool which, among other things, creates the configuration file for `wpa_supplicant`. It writes a `network={` block, and it can specify values for:
+
+* `ssid`,
+* `bssid`,
+* `scan_ssid`,
+* `psk`,
+* `key_mgmt`, and
+* `wep_key0`
+
+However, besides the default of `key_mgmt=PSK`, the only possible key management configuration is `key_mgmt=NONE`.
+
+The generated configuration files **never** contain `key_mgmt=FT-PSK`, meaning that `wpa_supplicant` can **never** attempt FT authentication. This is why the AKM suites in the association request contain only `00-0F-AC:2` (which is `key_mgmt=PSK`) and not `00-0F-AC:4` (which is `key_mgmt=FT-PSK`).
+
+Progress
+===
 
 Ford is tracking this issue as `CAS-9606059`, a research case opened 2016-05-31. I also reported this issue using several other channels earlier in the month of May, but none of those Ford representatives were able to give me any identifier.
 
@@ -69,6 +91,9 @@ On June 6, a Senior Business Analyst at Ford contacted me asking me to try disab
 On July 14, a different analyst contacted me to say that the issue was still open, and to ask if I could send over those packet captures. I forwarded the email from June, which she acknowledged but which her reply only partially quoted. I replied again attaching a PDF of my June email, which she acknowledged again.
 
 Over the next several months, I received periodic phone calls from Michigan telling me that the case is still open and that there's no ETA.
+
+Escalation
+---
 
 On November 15, I emailed the second analyst again asking for a status update. A brief discussion ensued, and I pointed out that I had completed research into this bug and provided my technical findings to my dealership within 72 hours of taking delivery of my vehicle, and that Ford appears to have sat on it for six months and made no progress. On November 16, I was told that the issue had been sent to CCT Escalation and that Engineering remained in the loop. This escalation is identified as `CAS-9606059-T9J7D6 CRM:00013000000371`.
 
@@ -89,6 +114,9 @@ On November 25, I told my contact at Ford that I have a [portable 802.11r lab](/
 On November 29, [I learned](/2016/11/29/email-1480450861.html) that the Regional Customer Service Manager that took this case on November 17 was changing positions and that my case would be handled by yet another representative, now my fourth contact at Ford corporate. (What kind of turnover do they have? Is this normal?)
 
 On November 30, I brought my vehicle to a dealership per Ford's request, where they identify this as repair order number `6220998`. The dealership was not interested in my portable 802.11r lab, but the technician at the dealership's service center was able to confirm the issue using their internal wireless network, which apparently is also 802.11r-capable. They referred the case to some internal Ford hotline.
+
+Denial
+---
 
 On December 5, [I received an email](/2016/12/05/email-1480967979.html) from the second Regional Customer Service Manager starting with:
 
@@ -151,3 +179,5 @@ I believe someone looked at this case, saw "can't connect to wifi", and closed i
 Google led me to 800-392-3673 (800-392-FORD), where I reached a representative who found this case and referred it to Tier 2 within the In-Vehicle Technology group. I hope that's a step in the right direction, though if is, I'll draw unpleasant conclusions about the Customer Care Team which has a) had this information for months and b) somehow never contacted the IVT group on my behalf.
 
 I also got a call from the service desk at the dealership, a member of which was CC:ed on my reply, who informed me that the dealership is still trying to get the Field Service Engineer out to the dealership to address this issue. He's hopeful that the engineer will be more available now that the holiday season is winding down.
+
+On December 29, I [dug into the SYNC 3 software](#software-analysis) and found additional information relevant to this issue. SYNC 3 v2.2's `wpa_supplicant` is never configured to attempt 802.11r authenticaiton, despite the vehicle attempting to associate to a 802.11r mobility domain.
