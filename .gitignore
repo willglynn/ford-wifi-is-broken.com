@@ -1,3 +1,6 @@
 _site
 .sass-cache
 .bundle
+
+_scripts/emails
+_scripts/secrets.yaml

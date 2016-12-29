@@ -72,7 +72,7 @@ Over the next several months, I received periodic phone calls from Michigan tell
 
 On November 15, I emailed the second analyst again asking for a status update. A brief discussion ensued, and I pointed out that I had completed research into this bug and provided my technical findings to my dealership within 72 hours of taking delivery of my vehicle, and that Ford appears to have sat on it for six months and made no progress. On November 16, I was told that the issue had been sent to CCT Escalation and that Engineering remained in the loop. This escalation is identified as `CAS-9606059-T9J7D6 CRM:00013000000371`.
 
-On November 17, I was contacted by a Ford Regional Customer Service Manager who informed me that she would be happy to assit with her technical resources… once I dropped off the vehicle at a Ford dealership. I replied that I understood she had a protocol to follow, but that it makes little sense for me to drop off my vehicle given the nature of the problem -- that instead, someone at Ford could read my report, look at their software, find and fix the problem without requiring my car. I also added that I would be willing to drop off my car anyway at any of the six closest dealerships anyway, so long as a comparable loaner was available.
+On November 17, [I was contacted](/2016/11/17/email-1479392945.html) by a Ford Regional Customer Service Manager who informed me that she would be happy to assit with her technical resources… once I dropped off the vehicle at a Ford dealership. I replied that I understood she had a protocol to follow, but that it makes little sense for me to drop off my vehicle given the nature of the problem -- that instead, someone at Ford could read my report, look at their software, find and fix the problem without requiring my car. I also added that I would be willing to drop off my car anyway at any of the six closest dealerships anyway, so long as a comparable loaner was available.
 
 <aside><p markdown="1">
   Also on November 17, it occurred to me that Wireshark (the protocol analyzer of record) can and should identify this issue automatically. I [opened a bug](https://bugs.wireshark.org/bugzilla/show_bug.cgi?id=13149) describing the feature I think it should have, [submitted a patch](https://code.wireshark.org/review/#/c/18862/), and [got it merged 🎉](https://github.com/wireshark/wireshark/commit/50515b9ebf8db7e97369e0cdbc748db9d0fd818b). The association request frames [now look like this](http://i.imgur.com/ZA2i5Uh.png), making this issue obvious without needing to squint at IEEE standards.
@@ -86,37 +86,37 @@ Ultimately, all I need to demonstrate the issue is an 802.11r-capable access poi
 
 On November 25, I told my contact at Ford that I have a [portable 802.11r lab](/assets/images/portable-80211r-lab.jpg) that I can bring to the dealership of her choosing.
 
-On November 28, I learned that the Regional Customer Service Manager that took this case on November 17 was changing positions and that my case would be handled by yet another representative, now my fourth contact at Ford corporate. (What kind of turnover do they have? Is this normal?)
+On November 29, [I learned](/2016/11/29/email-1480450861.html) that the Regional Customer Service Manager that took this case on November 17 was changing positions and that my case would be handled by yet another representative, now my fourth contact at Ford corporate. (What kind of turnover do they have? Is this normal?)
 
 On November 30, I brought my vehicle to a dealership per Ford's request, where they identify this as repair order number `6220998`. The dealership was not interested in my portable 802.11r lab, but the technician at the dealership's service center was able to confirm the issue using their internal wireless network, which apparently is also 802.11r-capable. They referred the case to some internal Ford hotline.
 
-On December 5, I received an email from the second Regional Customer Service Manager starting with:
+On December 5, [I received an email](/2016/12/05/email-1480967979.html) from the second Regional Customer Service Manager starting with:
 
 > At this time it has been determined that the cause of the concern is the customer’s connection point and not a vehicle failure. There has been no diagnosis and therefore no repair remedy to apply in this case. As I am not a technical resource, I am unable to make any recommendations, but I must inform you that I have exhausted my technical resources and have no other recourse to follow.
 
-I replied:
+[I replied](/2016/12/05/email-1480969276.html):
 
 > This is not satisfactory.
 > 
 > I understand that it's convenient to blame the customer's equipment, but I have two different access points from two different vendors both showing that this vehicle is in violation of the IEEE 802.11 standard. Both access points can document their communications with my vehicle, and both show the vehicle sending an association request frame which the 802.11 standard says **the access point must reject**. Please explain how you conclude that this is a problem with my equipment and not a problem with the vehicle.
 
-Another back and forth ensued, and the Regional Customer Service Manager informed me that the dealership had not requested that this case be reviewed by a Field Service Engineer, and that she could work with them to make that happen. I insisted that the engineer be presented with the information contained in this document, saying in part:
+After [doubling down](/2016/12/05/email-1480969778.html), the Regional Customer Service Manager [informed me](/2016/12/05/email-1480970216.html) that the dealership had not requested that this case be reviewed by a Field Service Engineer, and that she could work with them to make that happen. [I insisted](/2016/12/05/email-1480972220.html) that the engineer be presented with the information contained in this document, saying in part:
 
 > I want to know that some technical resource at Ford has actually **looked** at this information. If they did, I guarantee they would have more to say than "the cause of the concern is the customer’s connection point".
 
-On December 20, I wrote again:
+On December 20, [I wrote again](/2016/12/20/email-1482274095.html):
 
 > It's been over two weeks since our last contact. On my end, I've made my writeup accessible via a shorter link: [http://ford-wifi-is-broken.com/](http://ford-wifi-is-broken.com/)
 > 
 > What's currently in progress at Ford? Has a Field Service Engineer been engaged on this case? When should I expect further updates?
 
-I got an auto-response, which is what I expected given it's ~Christmas. I got a reply on December 27:
+I got an auto-response, which is what I expected given it's ~Christmas. I [got a reply](/2016/12/27/email-1482870832.html) on December 27:
 
 > Details of your vehicle concerns were submitted by the dealership to Ford’s corporate technical resource for review. It has been determined that there is no vehicle failure, rather a concern with the connection point. Per technical assistance team, at this time we would have you reference the information on pages 105 and 106 of the second printing of the Sync 3 supplement. You may also wish to contact the Sync In-Vehicle Team for assistance on connecting to the Wi-Fi source at 800-392-3763, Option 3 when prompted.
 > 
 > Your case with us will be closed at this point as there has been no damage or defect found and our solution for you is to contact the Sync In-Vehicle Team.
 
-…to which I replied:
+…to which [I replied](/2016/12/27/email-1482873053.html):
 
 > > Details of your vehicle concerns were submitted by the dealership to Ford’s corporate technical resource for review. It has been determined that there is no vehicle failure, rather a concern with the connection point.
 > 

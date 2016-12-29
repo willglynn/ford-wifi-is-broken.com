@@ -228,16 +228,17 @@ ol {
 
 dl dt {
   font-weight: bold;
+  display: inline-block;
+	padding: 4px 4px 4px 0;
+  min-width: 6em;
 }
 
 dl dd {
-  padding-left: 20px;
-  font-style: italic;
+	display: inline;
 }
-
-dl p {
-  padding-left: 20px;
-  font-style: italic;
+dl dd:after {
+	display: block;
+	content: "";
 }
 
 hr {
@@ -268,6 +269,15 @@ td {
 form {
   background: #f2f2f2;
   padding: 20px;
+}
+
+.person {
+	border-bottom: 1px dashed #bbb;
+}
+
+.redacted {
+	font-size: 0.9em;
+	color: #666;
 }
 
 /*******************************************************************************

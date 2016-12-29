@@ -1,0 +1,115 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+require 'bundler/setup'
+require 'mail'
+require 'reverse_markdown'
+
+require 'pry'
+require 'pp'
+
+Dir.chdir(File.dirname(__FILE__))
+
+class Redactor
+  def initialize
+    @config = YAML.load(File.read("secrets.yaml"))
+  end
+    
+  def redact(markdown)
+    markdown.gsub!(/(&nbsp;|[ \t])+/, " ") # consolidate spacelike things
+    markdown.gsub!(/\n\s+\n/, "\n\n") # consolidate extra newlines
+    
+    for person in @config['people']
+      redact_with = "<abbr class='person' title='#{person['title']}'>#{person['display']}</abbr>"
+      
+      if name = person['name']
+        markdown.gsub!(name, redact_with)
+      end
+      if email = person['email']
+        markdown.gsub!(Regexp.new(Regexp.escape(email), Regexp::IGNORECASE), redact_with)
+      end
+    end
+    
+    for item in @config['redact']
+      markdown.gsub!(item['find'], "<span class='redacted' title='(redacted)'>#{item['replace']}</span>")
+    end
+    
+    markdown
+  end
+end
+
+class MailMessage
+  def initialize(filename)
+    @mail = Mail.read(filename)
+  end
+  attr_reader :mail
+  
+  def timestamp
+    @timestamp ||= mail.date.to_time
+  end
+  
+  def write_post(redactor)
+    content = post(redactor)
+    File.open(post_filename, 'w') { |f| f.write content }
+  end
+
+  def post_filename
+    "../_posts/#{timestamp.strftime('%Y-%m-%d')}-email-#{timestamp.to_i}.md"
+  end
+    
+  def post(redactor)
+    [
+      YAML.dump(frontmatter),
+      "---",
+      redactor.redact(header_as_markdown),
+      redactor.redact(body_as_markdown),
+      ""
+    ].join("\n")
+  end
+  
+  def frontmatter
+    {
+      'layout' => 'email',
+      'date' => timestamp.utc.strftime('%Y-%m-%d %H:%M')
+    }
+  end
+  
+  def header_as_markdown
+    [
+      "From",
+      mail.from.map { |addr| ": #{addr}" }, "",
+      "Subject",
+      ": #{mail.subject}", "",
+      "Date",
+      ": #{mail['Date'].to_s}", "",
+      "To",
+      mail.to.map { |addr| ": #{addr}" }, "",
+      ""
+    ].compact.flatten.join("\n")
+  end
+  
+  def body_as_markdown
+    if html = html_body
+      ReverseMarkdown.convert(html, unknown_tags: :bypass, github_flavored: true)
+    else
+      text_body
+    end
+  end
+  
+  def html_body
+    if part = mail.html_part
+      part.body.to_s
+    end
+  end
+  
+  def text_body
+    mail.text_part.body.to_s
+  end
+end
+
+redactor = Redactor.new
+
+messages = Dir["emails/*.eml"].map { |filename| MailMessage.new(filename) }
+
+messages.each do |m|
+  m.write_post(redactor) unless File.exists?(m.post_filename)
+end
