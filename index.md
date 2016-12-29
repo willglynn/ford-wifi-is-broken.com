@@ -23,15 +23,13 @@ Technical description
 
 SYNC 3 constructs and transmits an Association Request frame with two contradictory pieces of information in this scenario.
 
-First is the Mobility Domain element (MDE). This element indicates that SYNC 3 a) is aware of 802.11r and b) wishes to connect to a specific 802.11r mobility domain. The inclusion of an MDE makes SYNC 3's association request an "FT initial mobility domain association in an RSN" per IEEE Std 802.11-2012 § 12.4.2:
-
-> A STA indicates its support for the FT procedures by including the MDE in the (Re)Association Request frame and indicates its support of security by including the RSNE.
+First is the Mobility Domain element (MDE). This element indicates that SYNC 3 a) is aware of 802.11r and b) wishes to connect to a specific 802.11r mobility domain. The inclusion of an MDE makes SYNC 3's association request an "FT initial mobility domain association in an RSN" [per IEEE Std 802.11-2012 § 12.4.2](/assets/resources/80211-2012_page_1311.pdf).
 
 Second is the Robust Securtity Network element (RSNE) which describes the parameters of the security scheme SYNC 3 will use. This is part of a negotiation with the access point; the access point states what it supports using RSNEs in Beacon and Probe Response frames, and the wireless client bases its RSNE on the intersection of what the AP supports and what the client supports. The RSNE includes an Authentication and Key Management (AKM) Suite selector, which dictates the procedure used to derive encryption keys.
 
-An 802.11r-capable access point configured for WPA2-PSK will announce support for two AKM suites: `00-0F-AC:2` PSK and `00-0F-AC:4` FT authentication using PSK. (See IEEE Std 802.11-2012 § 8.4.2.27.3 for a table.) FT authentication is designed to support transitions between multiple access points, whereas non-FT authentication is not.
+An 802.11r-capable access point configured for WPA2-PSK will announce support for two AKM suites: `00-0F-AC:2` PSK and `00-0F-AC:4` FT authentication using PSK. (See [IEEE Std 802.11-2012 § 8.4.2.27.3](/assets/resources/80211-2012_page_558_559.pdf) for a table.) FT authentication is designed to support transitions between multiple access points, whereas non-FT authentication is not.
 
-SYNC 3's association request includes an MDE (indicating a desire to use FT) and a RSNE listing AKM suite `00-0F-AC:2` (indicating a desire to use non-FT authentication). This is expressly prohibited per IEEE Std 802.11-2012 § 12.4.2:
+SYNC 3's association request includes an MDE (indicating a desire to use FT) and a RSNE listing AKM suite `00-0F-AC:2` (indicating a desire to use non-FT authentication). This is expressly prohibited [per IEEE Std 802.11-2012 § 12.4.2](/assets/resources/80211-2012_page_1312.pdf):
 
 > If an MDE is present in the (Re)Association Request frame and the contents of the RSNE do not indicate a negotiated AKM of Fast BSS Transition (suite type `00-0F-AC:3`, `00-0F-AC:4`, or `00-0F-AC:9`), the AP shall reject the (Re)Association Request frame with status code 43 (i.e., Invalid AKMP).
 
