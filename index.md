@@ -64,7 +64,7 @@ Software Analysis
 
 The theory [which I've long advanced](/2016/11/17/email-1479396709.html#theory) is that there's two components inside SYNC 3, one of which is attempting 802.11r when it sends the association request frame, and another of which is not attempting 802.11r when it handles authentication.
 
-Someone [posted SYNC 3's 2.2 update](http://www.2gfusions.net/showthread.php?tid=3881&pid=100870) which gave me a chance to find out. That archive contains `HN1T-14G381-LG.tar.gz`, which contains `apps.tar.gz`, which contains a QNX6 filesystem holding some software.
+Late December, someone [posted SYNC 3's 2.2 update](http://www.2gfusions.net/showthread.php?tid=3881&pid=100870) which finally gave me a chance to find out. That archive contains `HN1T-14G381-LG.tar.gz`, which contains `apps.tar.gz`, which contains a QNX6 filesystem holding some software.
 
 This software image offers confirmation of this theory. SYNC 3 uses a QNX build of [the usual `wpa_supplicant`](https://w1.fi/wpa_supplicant/) for its 802.11 authentication exchanges. `wpa_supplicant` can support 802.11r, but it must be compiled with `CONFIG_IEEE80211R` and it must be configured as `key_mgmt=PSK FT-PSK`. The default is `key_mgmt=PSK`.
 
