@@ -66,7 +66,7 @@ The theory [which I've long advanced](/2016/11/17/email-1479396709.html) is that
 
 Someone [posted SYNC 3's 2.2 update](http://www.2gfusions.net/showthread.php?tid=3881&pid=100870) which gave me a chance to find out. That archive contains `HN1T-14G381-LG.tar.gz`, which contains `apps.tar.gz`, which contains a QNX6 filesystem holding some software.
 
-This software image confirms at least half my theory. SYNC 3 uses a QNX build of [the usual `wpa_supplicant`](https://w1.fi/wpa_supplicant/) for its 802.11 authentication exchanges. `wpa_supplicant` can support 802.11r, but it must be compiled with `CONFIG_IEEE80211R` and it must be configured as `key_mgmt=PSK FT-PSK`. The default is `key_mgmt=PSK`.
+This software image offers confirmation of this theory. SYNC 3 uses a QNX build of [the usual `wpa_supplicant`](https://w1.fi/wpa_supplicant/) for its 802.11 authentication exchanges. `wpa_supplicant` can support 802.11r, but it must be compiled with `CONFIG_IEEE80211R` and it must be configured as `key_mgmt=PSK FT-PSK`. The default is `key_mgmt=PSK`.
 
 `/apps/NET_WifiConnectionMgr` is a Ford tool which, among other things, creates the configuration file for `wpa_supplicant`. It writes a `network={` block, and it can specify values for:
 
@@ -80,6 +80,8 @@ This software image confirms at least half my theory. SYNC 3 uses a QNX build of
 However, besides the default of `key_mgmt=PSK`, the only possible key management configuration is `key_mgmt=NONE`.
 
 The generated configuration files **never** contain `key_mgmt=FT-PSK`, meaning that `wpa_supplicant` can **never** attempt FT authentication. This is why the AKM suites in the association request contain only `00-0F-AC:2` (which is `key_mgmt=PSK`) and not `00-0F-AC:4` (which is `key_mgmt=FT-PSK`).
+
+Solution 2 could be accomplished by a) verifying that the WPA supplicant was compiled with 802.11r support and b) making `NET_WifiConnectionMgr` configure `key_mgmt=PSK FT-PSK` whenever it would instead rely on defaults.
 
 Progress
 ===
