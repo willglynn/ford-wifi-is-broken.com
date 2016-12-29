@@ -81,11 +81,13 @@ This software image offers confirmation of this theory. SYNC 3 uses a QNX build 
 
 However, besides the default of `key_mgmt=PSK`, the only possible key management configuration is `key_mgmt=NONE`.
 
-The generated configuration files **never** contain `key_mgmt=FT-PSK`, meaning that `wpa_supplicant` can **never** attempt FT authentication. This is why the AKM suites in the association request contain only `00-0F-AC:2` (which is `key_mgmt=PSK`) and not `00-0F-AC:4` (which is `key_mgmt=FT-PSK`).
+The generated configuration files **never** contain `key_mgmt=FT-PSK`, meaning that `wpa_supplicant` can **never** attempt FT authentication. This is why the AKM suite in the association request lists only `00-0F-AC:2` (which is `key_mgmt=PSK`) and not `00-0F-AC:4` (which is `key_mgmt=FT-PSK`).
 
-**This is the bug.**
+In other words: the SYNC 3 wifi subsystem *supports* 802.11r, but the Ford software configuring it never enables 802.11r authentication.
 
-Solution 2 could be accomplished by making `NET_WifiConnectionMgr` configure `key_mgmt=PSK FT-PSK` whenever it would instead rely on defaults. Two lines of code in that specific program would fix this issue.
+<p class="finger-pointing">This is the bug.</p>
+
+Solution 2 could be accomplished by making `NET_WifiConnectionMgr` set `key_mgmt=PSK FT-PSK` instead of relying on defaults. Adding that single line to the config file would fix this problem.
 
 Progress
 ===

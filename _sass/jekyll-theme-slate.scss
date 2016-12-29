@@ -365,6 +365,20 @@ Full-Width Styles
 	font-size: 1.1em;
 }
 
+.finger-pointing {
+	font-size: 1.6em;
+	font-weight: bold;
+	color: #000;
+}
+.finger-pointing:before {
+	content: "\2192  \2192  \2192";
+	padding-right: 0.5em;
+}
+.finger-pointing:after {
+	content: "\2190  \2190  \2190";
+	padding-left: 0.5em;
+}
+
 /*******************************************************************************
 Small Device Styles
 *******************************************************************************/
