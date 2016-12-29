@@ -146,7 +146,14 @@ I got an auto-response, which is what I expected given it's ~Christmas. I [got a
 > 
 > Your case with us will be closed at this point as there has been no damage or defect found and our solution for you is to contact the Sync In-Vehicle Team.
 
-…to which [I replied](/2016/12/27/email-1482873053.html):
+Everything about this is insulting:
+
+* The Ford dealership confirmed an issue with the vehicle.
+* There is no such thing as a "connection point". She means "access point", but all three of them -- my usual, my lab, and the dealership's -- are refusing the car's connection attempts exactly as required.
+* The [document she would have me reference](/assets/resources/sync3_supplement_pages_105_106.pdf) is entirely useless.
+* Even the phone number she provided is wrong.
+
+[I replied](/2016/12/27/email-1482873053.html):
 
 > > Details of your vehicle concerns were submitted by the dealership to Ford’s corporate technical resource for review. It has been determined that there is no vehicle failure, rather a concern with the connection point.
 > 
