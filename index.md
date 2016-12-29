@@ -62,7 +62,7 @@ Such an association frame must be rejected by the access point; see [IEEE Std 80
 Software Analysis
 --
 
-The theory [which I've long advanced](/2016/11/17/email-1479396709.html) is that there's two components inside SYNC 3, one of which is attempting 802.11r when it sends the association request frame, and another of which is not attempting 802.11r when it handles authentication.
+The theory [which I've long advanced](/2016/11/17/email-1479396709.html#theory) is that there's two components inside SYNC 3, one of which is attempting 802.11r when it sends the association request frame, and another of which is not attempting 802.11r when it handles authentication.
 
 Someone [posted SYNC 3's 2.2 update](http://www.2gfusions.net/showthread.php?tid=3881&pid=100870) which gave me a chance to find out. That archive contains `HN1T-14G381-LG.tar.gz`, which contains `apps.tar.gz`, which contains a QNX6 filesystem holding some software.
 
