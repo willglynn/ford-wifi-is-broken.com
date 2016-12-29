@@ -66,7 +66,7 @@ The theory [which I've long advanced](/2016/11/17/email-1479396709.html#theory) 
 
 Late December, someone [posted SYNC 3's 2.2 update](http://www.2gfusions.net/showthread.php?tid=3881&pid=100870) which finally gave me a chance to find out. That archive contains `HN1T-14G381-LG.tar.gz`, which contains `apps.tar.gz`, which contains a QNX6 filesystem holding some software.
 
-This software image offers confirmation of this theory. SYNC 3 uses a QNX build of [the usual `wpa_supplicant`](https://w1.fi/wpa_supplicant/) for its 802.11 authentication exchanges. `wpa_supplicant` can support 802.11r, but it must be compiled with `CONFIG_IEEE80211R` and it must be configured as `key_mgmt=PSK FT-PSK`. The default is `key_mgmt=PSK`.
+This software image offers confirmation of this theory. SYNC 3 uses [the usual `wpa_supplicant`](https://w1.fi/wpa_supplicant/) for its 802.11 authentication exchanges. This program  can support 802.11r, but it must have 802.11r turned on at compile time via `CONFIG_IEEE80211R` and it must be configured at runtime to use `key_mgmt=PSK FT-PSK`. The default `key_mgmt` does not include `FT-PSK`.
 
 `/usr/sbin/wpa_supplicant_ti18xx` can be found inside `/ifs/second-ifs`, and it looks like it *was* compiled with 802.11r support. The [key management configuration parser](https://w1.fi/cgit/hostap/tree/wpa_supplicant/config.c?h=hostap_2_4#n635) checks for `FT-PSK` and `FT-EAP` only if it actually supports 802.11r, and that's [what's in this build](/assets/images/wpa_supplicant_strings.png). So: if the WPA supplicant supports 802.11r, why doesn't it work?
 
@@ -87,7 +87,7 @@ In other words: the SYNC 3 wifi subsystem *supports* 802.11r, but the Ford softw
 
 <p class="finger-pointing">This is the bug.</p>
 
-Solution 2 could be accomplished by making `NET_WifiConnectionMgr` set `key_mgmt=PSK FT-PSK` instead of relying on defaults. Adding that single line to the config file would fix this problem.
+[Solution 2](#solutions) could be accomplished by making `NET_WifiConnectionMgr` set `key_mgmt=PSK FT-PSK` instead of relying on defaults. Adding that single line to the config file would fix this problem.
 
 Progress
 ===
