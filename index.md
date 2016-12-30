@@ -156,7 +156,9 @@ I got an auto-response, which is what I expected given it's ~Christmas. I [got a
 
 Everything about this is insulting:
 
-* The Ford dealership confirmed an issue with the vehicle.
+* It completely ignores her previous email (which I [quoted](http://localhost:4000/2016/12/20/email-1482274095.html)) wherein she [recommended additional action](/2016/12/05/email-1480970216.html).
+* It completely ignores my questions which all concerned that additional action.
+* The Ford dealership confirmed an issue with the vehicle, and like me, does not accept this resolution.
 * There is no such thing as a "connection point". She means "access point", but all three of them -- my usual, my lab, and the dealership's -- are refusing the car's connection attempts exactly as required.
 * The [document she would have me reference](/assets/resources/sync3_supplement_pages_105_106.pdf) is entirely useless.
 * Even the phone number she provided is wrong.
