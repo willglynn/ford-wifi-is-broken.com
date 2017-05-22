@@ -4,7 +4,7 @@ Ford SYNC 3 includes an 802.11b/g/n wifi client, but it is unable to connect to 
 
 When SYNC 3 tries to connect to a network that supports 802.11r, it says "I want to use 802.11r" and "I want to use **non-802.11r** security". That's not allowed, so it can't connect.
 
-I know [prescisely why](#software-analysis) this happens and all I want is for Ford to fix it. [No luck](#progress) so far.
+I know [precisely why](#software-analysis) this happens and all I want is for Ford to fix it. [No luck](#progress) so far.
 
 </div>
 
