@@ -4,7 +4,7 @@ Ford SYNC 3 includes an 802.11b/g/n wifi client, but it is unable to connect to 
 
 When SYNC 3 tries to connect to a network that supports 802.11r, it says "I want to use 802.11r" and "I want to use **non-802.11r** security". That's not allowed, so it can't connect.
 
-I know [precisely why](#software-analysis) this happens and all I want is for Ford to fix it. [No luck](#progress) so far.
+I know [precisely why](#software-analysis) this happens and all I want is for Ford to fix it. After [quite an ordeal](#progress), Ford has [acknowledged the issue](#acknowledgement) and is working on a fix.
 
 </div>
 
@@ -200,3 +200,22 @@ Google led me to 800-392-3673 (800-392-FORD), where I reached a representative w
 I also got a call from the service desk at the dealership, a member of which was CC:ed on my reply, who informed me that the dealership is still trying to get the Field Service Engineer out to the dealership to address this issue. He's hopeful that the engineer will be more available now that the holiday season is winding down.
 
 On December 29, I [dug into the SYNC 3 software](#software-analysis) and found additional information relevant to this issue. SYNC 3 v2.2's `wpa_supplicant` is never configured to attempt 802.11r authentication, despite the vehicle attempting to associate to a 802.11r mobility domain. I emailed again [insisting that the case be re-opened](/2016/12/29/email-1483030261.html). I then reached out to essentially every contact I've ever had, asking that my analysis be added to the case. ^SN at [@FordService](https://twitter.com/FordService) was the first to agree on December 30.
+
+Acknowledgement
+===
+
+I was working with my Ford dealership for getting CarPlay support into my Edge, which is a feature I've been waiting for since I bought this vehicle. This required both a hardware and a software upgrade. They were able to change the hardware around March 7, but told me I'd need to wait until SYNC 3 2.0 gets released for my vehicle, at which point I can upgrade from home.
+
+I mentioned that my SYNC 3 vehicle is unable to receive updates over wifi. This prompted a whole discussion that led their staff to this website.
+
+They seemed to take the issue seriously -- again -- and while I don't know the disposition of the case when they picked it up in March, they referred it again to the Ford hotline. I made sure the hotline people would have a link to this website, and this time, it seemed to work.
+
+On March 30, 2017, I received a voicemail:
+
+> Hi Mr. Glynn, this is Harry. I'm calling from the Ford Motor Company In-Vehicle Technology Support Center. I'm calling in reference to something that you brought to our attention, in regards to our SYNC system not being able to connect to the R-wireless networks. We do thank you for bringing that to our attention. I wanted to give you an update on where we are at with this.
+>
+> We did bring this to the attention of our engineers, they did reproduce the same scenario, and now we're looking at deploying an update that will allow that network to connect to your SYNC system. So, we're looking for -- we don't have an exact timeframe for when the update will be out there -- but we will produce an update that will allow our system to connect to that network. Once we do that, we will be communicating with you to let you know that that update is available so that you can download it to use it with your network.
+>
+> Again, we appreciate greatly that you brought this to our attention. We are glad that we have customers like yourself that will help us to improve our products. In the interim, if you have any questions or concerns, please give me a call here at the In Vehicle Technology service center, 800-392-3673, selecting options number 13, 12, `CAS-9606059`. I am in the office Monday through Friday, 8:30 -- excuse me, 8 AM -- until 4:30 PM Eastern. Thank you. Have yourself a great day. Bye now.
+
+Ford now recognizes that there is a software issue with SYNC 3 and 802.11r networks, and Ford has agreed to fix it. Success, I guess?
