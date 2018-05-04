@@ -4,7 +4,7 @@ Ford SYNC 3 includes an 802.11b/g/n wifi client, but it is unable to connect to 
 
 When SYNC 3 tries to connect to a network that supports 802.11r, it says "I want to use 802.11r" and "I want to use **non-802.11r** security". That's not allowed, so it can't connect.
 
-I know [precisely why](#software-analysis) this happens and all I want is for Ford to fix it. After [quite an ordeal](#progress), Ford has [acknowledged the issue](#acknowledgement) and is working on a fix.
+I know [precisely why](#software-analysis) this happens and all I want is for Ford to fix it. After [quite an ordeal](#progress), Ford [acknowledged the issue](#acknowledgement) in March 2017 and claimed to be working on a fix. As of May 2018 – two years since I first reported the issue – it remains unfixed.
 
 </div>
 
@@ -46,7 +46,7 @@ SYNC 3 must either:
 Resources
 --
 
-I was troubleshooting this on May 4, during which I took two packet captures:
+I was troubleshooting this on May 4 2016, during which I took two packet captures:
 
 * [one with 802.11r enabled](/assets/resources/may_4_80211r_enabled.pcap.gz), where SYNC 3 can't connect, and
 * [another with 802.11r disabled](/assets/resources/may_4_80211r_disabled.pcap.gz), where SYNC 3 can connect.
@@ -64,7 +64,7 @@ Software Analysis
 
 The theory [which I've long advanced](/2016/11/17/email-1479396709.html#theory) is that there's two components inside SYNC 3, one of which is attempting 802.11r when it sends the association request frame, and another of which is not attempting 802.11r when it handles authentication.
 
-Late December, someone [posted SYNC 3's 2.2 update](http://www.2gfusions.net/showthread.php?tid=3881&pid=100870) which finally gave me a chance to find out. That archive contains `HN1T-14G381-LG.tar.gz`, which contains `apps.tar.gz`, which contains a QNX6 filesystem holding some software.
+Late December 2016, someone [posted SYNC 3's 2.2 update](http://www.2gfusions.net/showthread.php?tid=3881&pid=100870) which finally gave me a chance to find out. That archive contains `HN1T-14G381-LG.tar.gz`, which contains `apps.tar.gz`, which contains a QNX6 filesystem holding some software.
 
 This software image offers confirmation of this theory. SYNC 3 uses [the usual `wpa_supplicant`](https://w1.fi/wpa_supplicant/) for its 802.11 authentication exchanges. This program  can support 802.11r, but it must have 802.11r turned on at compile time via `CONFIG_IEEE80211R` and it must be configured at runtime to use `key_mgmt=PSK FT-PSK`. The default `key_mgmt` does not include `FT-PSK`.
 
@@ -126,7 +126,7 @@ On November 30, I brought my vehicle to a dealership per Ford's request, where t
 Denial
 ---
 
-On December 5, [I received an email](/2016/12/05/email-1480967979.html) from the second Regional Customer Service Manager starting with:
+On December 5 2016, [I received an email](/2016/12/05/email-1480967979.html) from the second Regional Customer Service Manager starting with:
 
 > At this time it has been determined that the cause of the concern is the customer’s connection point and not a vehicle failure. There has been no diagnosis and therefore no repair remedy to apply in this case. As I am not a technical resource, I am unable to make any recommendations, but I must inform you that I have exhausted my technical resources and have no other recourse to follow.
 
@@ -204,13 +204,13 @@ On December 29, I [dug into the SYNC 3 software](#software-analysis) and found a
 Acknowledgement
 ===
 
-I was working with my Ford dealership for getting CarPlay support into my Edge, which is a feature I've been waiting for since I bought this vehicle. This required both a hardware and a software upgrade. They were able to change the hardware around March 7, but told me I'd need to wait until SYNC 3 2.0 gets released for my vehicle, at which point I can upgrade from home.
+I was working with my Ford dealership for getting CarPlay support into my Edge, which is a feature I've been waiting for since I bought this vehicle. This required both a hardware and a software upgrade. They were able to change the hardware around March 7 2017, but told me I'd need to wait until SYNC 3 2.0 gets released for my vehicle, at which point I can upgrade from home.
 
 I mentioned that my SYNC 3 vehicle is unable to receive updates over wifi. This prompted a whole discussion that led their staff to this website.
 
 They seemed to take the issue seriously -- again -- and while I don't know the disposition of the case when they picked it up in March, they referred it again to the Ford hotline. I made sure the hotline people would have a link to this website, and this time, it seemed to work.
 
-On March 30, 2017, I received a voicemail:
+On March 30 2017, I received a voicemail:
 
 > Hi Mr. Glynn, this is Harry. I'm calling from the Ford Motor Company In-Vehicle Technology Support Center. I'm calling in reference to something that you brought to our attention, in regards to our SYNC system not being able to connect to the R-wireless networks. We do thank you for bringing that to our attention. I wanted to give you an update on where we are at with this.
 >
