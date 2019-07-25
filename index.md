@@ -4,7 +4,7 @@ Ford SYNC 3 includes an 802.11b/g/n wifi client, but it is unable to connect to 
 
 When SYNC 3 tries to connect to a network that supports 802.11r, it says "I want to use 802.11r" and "I want to use **non-802.11r** security". That's not allowed, so it can't connect.
 
-I know [precisely why](#software-analysis) this happens and all I want is for Ford to fix it. After [quite an ordeal](#progress), Ford [acknowledged the issue](#acknowledgement) in March 2017 and claimed to be working on a fix. As of May 2018 – two years since I first reported the issue – it remains unfixed.
+I know [precisely why](#software-analysis) this happens and all I want is for Ford to fix it. After [quite an ordeal](#progress), Ford [acknowledged the issue](#acknowledgement) in March 2017 and claimed to be working on a fix. Ford silently closed the case again a year later. The problem remains unfixed to this day.
 
 </div>
 
@@ -33,7 +33,7 @@ SYNC 3's association request includes an MDE (indicating a desire to use FT) and
 
 > If an MDE is present in the (Re)Association Request frame and the contents of the RSNE do not indicate a negotiated AKM of Fast BSS Transition (suite type `00-0F-AC:3`, `00-0F-AC:4`, or `00-0F-AC:9`), the AP shall reject the (Re)Association Request frame with status code 43 (i.e., Invalid AKMP).
 
-It also doesn't make any objective sense, because fast transitions simply depend on FT authentication. 
+It also doesn't make any objective sense, because fast transitions simply depend on FT authentication.
 
 Solutions
 ---
@@ -133,7 +133,7 @@ On December 5 2016, [I received an email](/2016/12/05/email-1480967979.html) fro
 [I replied](/2016/12/05/email-1480969276.html):
 
 > This is not satisfactory.
-> 
+>
 > I understand that it's convenient to blame the customer's equipment, but I have two different access points from two different vendors both showing that this vehicle is in violation of the IEEE 802.11 standard. Both access points can document their communications with my vehicle, and both show the vehicle sending an association request frame which the 802.11 standard says **the access point must reject**. Please explain how you conclude that this is a problem with my equipment and not a problem with the vehicle.
 
 After [doubling down](/2016/12/05/email-1480969778.html), the Regional Customer Service Manager [informed me](/2016/12/05/email-1480970216.html) that the dealership had not requested that this case be reviewed by a Field Service Engineer, and that she could work with them to make that happen. [I insisted](/2016/12/05/email-1480972220.html) that the engineer be presented with the information contained in this document, saying in part:
@@ -145,13 +145,13 @@ I registered `ford-wifi-is-broken.com` on December 6 and redirected it to [the G
 On December 20, [I wrote again](/2016/12/20/email-1482274095.html):
 
 > It's been over two weeks since our last contact. On my end, I've made my writeup accessible via a shorter link: [http://ford-wifi-is-broken.com/](http://ford-wifi-is-broken.com/)
-> 
+>
 > What's currently in progress at Ford? Has a Field Service Engineer been engaged on this case? When should I expect further updates?
 
 I got an auto-response, which is what I expected given it's ~Christmas. I [got a reply](/2016/12/27/email-1482870832.html) on December 27:
 
 > Details of your vehicle concerns were submitted by the dealership to Ford’s corporate technical resource for review. It has been determined that there is no vehicle failure, rather a concern with the connection point. Per technical assistance team, at this time we would have you reference the information on pages 105 and 106 of the second printing of the Sync 3 supplement. You may also wish to contact the Sync In-Vehicle Team for assistance on connecting to the Wi-Fi source at 800-392-3763, Option 3 when prompted.
-> 
+>
 > Your case with us will be closed at this point as there has been no damage or defect found and our solution for you is to contact the Sync In-Vehicle Team.
 
 Everything about this is insulting:
@@ -166,25 +166,25 @@ Everything about this is insulting:
 [I replied](/2016/12/27/email-1482873053.html):
 
 > > Details of your vehicle concerns were submitted by the dealership to Ford’s corporate technical resource for review. It has been determined that there is no vehicle failure, rather a concern with the connection point.
-> 
+>
 > This conclusion does not agree with the facts.
-> 
+>
 > I've told everyone who will listen: this vehicle sends malformed association request frames when connecting to 802.11r-capable access points. I've sent diagrams showing these frames, along with the standards documents which explicitly say that those frames make no sense. I don't see any way to present this except that SYNC 3 has a bug, but don't take my word for it: the dealership service personnel told me they were able to reproduce this issue with the dealership's 802.11r-capable network too.
-> 
+>
 > It's broken for me, and I've offered specifics as to precisely what is going wrong. I brought my vehicle to [dealership] as you requested, and they say it's broken for them too. After all this, it's insufficient for Ford corporate to close the case saying only it's "a concern with the connection point". Seriously – "connection point" isn't even a term used in the 802.11 standard, nor is that phrase used by anyone who's done any wireless troubleshooting.
 >
 I believe someone looked at this case, saw "can't connect to wifi", and closed it saying "must be the customer's problem". I wrote to [previous rep] about this possibility on November 17:
 >
 > > So, yes, the basic problem is that my vehicle can't connect to my wifi network. It's tempting to think that wifi problems can be dismissed as an incompatibility that's both or neither party's fault, but in this case that's simply not true. My vehicle can't connect to my wifi because it's trying to authenticate in a way that violates the 802.11 standard. Specifically, my vehicle can't connect because it's transmitting an authentication frame that is expressly prohibited by IEEE Std 802.11-2012 § 12.4.2:
-> > 
+> >
 > > …
-> > 
+> >
 > > Here's a picture of my vehicle sending an Association Request frame with an MDE and an RSN indicating AKM suite 00-0f-ac:2, which is exactly what that sentence says not to do:
-> > 
+> >
 > > …
-> > 
+> >
 > > **That** is the problem. Someone at Ford engineering should dig into the wifi section of the SYNC 3 software, where they'll find that the WPA supplicant does not support 802.11r, and that the component sending association requests is configured to request 802.11r anyway. **That** is why SYNC 3 would send this kind of invalid frame. They can either a) tell the component sending association requests not to request 802.11r, or b) keep requesting 802.11r and teach the WPA supplicant how to handle 802.11r. **That** is this fix.
-> 
+>
 > Closing this case with that explanation is not satisfactory, and repeating that explanation without elaboration does nothing to challenge this interpretation of events.
 >
 > > You may also wish to contact the Sync In-Vehicle Team for assistance on connecting to the Wi-Fi source at 800-392-3763, Option 3 when prompted.
